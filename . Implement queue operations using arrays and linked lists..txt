@@ -1,0 +1,221 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 5
+
+// ---------- ARRAY QUEUE ----------
+int queue[MAX];
+int front1 = -1, rear1 = -1;
+
+// Enqueue (Array)
+void enqueue_array(int value)
+{
+    if (rear1 == MAX - 1)
+        printf("Queue Overflow\n");
+    else
+    {
+        if (front1 == -1)
+            front1 = 0;
+
+        queue[++rear1] = value;
+        printf("%d inserted (Array)\n", value);
+    }
+}
+
+// Dequeue (Array)
+void dequeue_array()
+{
+    if (front1 == -1 || front1 > rear1)
+        printf("Queue Underflow\n");
+    else
+        printf("%d deleted (Array)\n", queue[front1++]);
+}
+
+// Display (Array)
+void display_array()
+{
+    if (front1 == -1 || front1 > rear1)
+        printf("Array Queue is Empty\n");
+    else
+    {
+        printf("Array Queue: ");
+        for (int i = front1; i <= rear1; i++)
+            printf("%d ", queue[i]);
+    }
+    printf("\n");
+}
+
+
+// ---------- LINKED LIST QUEUE ----------
+struct Node
+{
+    int data;
+    struct Node *next;
+};
+
+struct Node *front2 = NULL;
+struct Node *rear2 = NULL;
+
+// Enqueue (Linked List)
+void enqueue_list(int value)
+{
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+
+    if (newNode == NULL)
+    {
+        printf("Memory not available\n");
+        return;
+    }
+
+    newNode->data = value;
+    newNode->next = NULL;
+
+    if (rear2 == NULL)
+        front2 = rear2 = newNode;
+    else
+    {
+        rear2->next = newNode;
+        rear2 = newNode;
+    }
+
+    printf("%d inserted (Linked List)\n", value);
+}
+
+// Dequeue (Linked List)
+void dequeue_list()
+{
+    if (front2 == NULL)
+        printf("Queue Underflow\n");
+    else
+    {
+        struct Node *temp = front2;
+        printf("%d deleted (Linked List)\n", front2->data);
+
+        front2 = front2->next;
+
+        if (front2 == NULL)
+            rear2 = NULL;
+
+        free(temp);
+    }
+}
+
+// Display (Linked List)
+void display_list()
+{
+    if (front2 == NULL)
+        printf("Linked Queue is Empty\n");
+    else
+    {
+        struct Node *temp = front2;
+        printf("Linked Queue: ");
+
+        while (temp != NULL)
+        {
+            printf("%d ", temp->data);
+            temp = temp->next;
+        }
+    }
+    printf("\n");
+}
+
+
+// ---------- MAIN ----------
+int main()
+{
+    int type, choice, value;
+
+    while (1)
+    {
+        printf("\nChoose Queue Type:\n1. Array\n2. Linked List\n3. Exit\n");
+        scanf("%d", &type);
+
+        if (type == 3) break;
+
+        printf("1. Enqueue\n2. Dequeue\n3. Display\n");
+        scanf("%d", &choice);
+
+        switch (type)
+        {
+            case 1:
+                if (choice == 1)
+                {
+                    printf("Enter value: ");
+                    scanf("%d", &value);
+                    enqueue_array(value);
+                }
+                else if (choice == 2)
+                    dequeue_array();
+                else if (choice == 3)
+                    display_array();
+                else
+                    printf("Invalid choice\n");
+                break;
+
+            case 2:
+                if (choice == 1)
+                {
+                    printf("Enter value: ");
+                    scanf("%d", &value);
+                    enqueue_list(value);
+                }
+                else if (choice == 2)
+                    dequeue_list();
+                else if (choice == 3)
+                    display_list();
+                else
+                    printf("Invalid choice\n");
+                break;
+
+            default:
+                printf("Invalid type\n");
+        }
+    }
+
+    return 0;
+}
+
+output:
+Choose Queue Type:
+1. Array
+2. Linked List
+3. Exit
+2
+1. Enqueue
+2. Dequeue
+3. Display
+1
+Enter value: 8
+8 inserted (Linked List)
+
+Choose Queue Type:
+1. Array
+2. Linked List
+3. Exit
+1
+1. Enqueue
+2. Dequeue
+3. Display
+2
+Queue Underflow
+
+Choose Queue Type:
+1. Array
+2. Linked List
+3. Exit
+1
+1. Enqueue
+2. Dequeue
+3. Display
+3
+Array Queue is Empty
+
+
+Choose Queue Type:
+1. Array
+2. Linked List
+3. Exit
+3
+
+
+=== Code Execution Successful ===
